@@ -102,3 +102,34 @@ res.sendRedirect("sq?k="+k);
 //servlet 2
 int k = Integer.parseInt(req.getParameter("k"));
 ```
+
+- HttpSession
+
+```java
+HttpSession session = req.getSession();
+session.setAttribute("k", k);
+res.sendRedirect("sq");
+```
+
+```java
+HttpSession session = req.getSession();
+int k = (int)session.getAttribute("k");
+```
+
+- Cookie
+
+```java
+Cookie cookie = new Cookie("k",k+"");
+res.addCookie(cookie);
+res.sendRedirect("sq");
+```
+
+```java
+int k = 0;
+Cookie cookies[] = req.getCookies();
+for(Cookie c:cookies) {
+    if(c.getName().equals("k")) {
+        k = Integer.parseInt(c.getValue());
+    }
+}
+```
