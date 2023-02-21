@@ -8,4 +8,12 @@
   	<servlet-name>add</servlet-name>
   	<url-pattern>/add</url-pattern>
   </servlet-mapping>
+  <servlet>
+  	<servlet-name>sqresult</servlet-name>
+  	<servlet-class>com.potatoscript.SqServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>sqresult</servlet-name>
+  	<url-pattern>/sq</url-pattern>
+  </servlet-mapping>
 </web-app>

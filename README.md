@@ -8,9 +8,7 @@
 - [概要](#概要)
   - [開発環境設置](#開発環境設置)
   - [基本的なアプリケーション](#基本的なアプリケーション)
-- [構造](#構造)
-  - [開発環境・ツール](#a-開発環境ツール)
-- [著者](#d-著者)
+  - [RequestDispatcher Calling a Seervlet from Servlet](#RequestDispatcher-Calling-Servlet-from-Servlet)
 
 ## 概要
 
@@ -42,6 +40,7 @@
 ```
 
 - Create Servlet class to interact with the index.html
+- サーブレットは `HttpServletRequest` と `HttpServlet Response` の 2 つのオブジェクトを取ります
 
 ```java
 public class AddServlet extends HttpServlet {
@@ -67,4 +66,39 @@ public class AddServlet extends HttpServlet {
   	<servlet-name>add</servlet-name>
   	<url-pattern>/add</url-pattern>
   </servlet-mapping>
+```
+
+- you can use `doPost` and `doGet` to control the
+
+### RequestDispatcher Calling Servlet from Servlet
+
+- Same Website
+  - RequestDispatcher
+
+```java
+//servlet 1
+req.setAttribute("k",k);
+RequestDispatcher rd = req.getRequestDispatcher("sq");
+rd.forward(req, res);
+```
+
+```java
+//servlet 2
+int k = (int)req.getAttribute("k");
+k = k*k;
+PrintWriter out = res.getWriter();
+out.println("result is " + k);
+```
+
+- Difference Website
+  - sendRedirect (session manager)
+
+```java
+//servlet 1
+res.sendRedirect("sq?k="+k);
+```
+
+```java
+//servlet 2
+int k = Integer.parseInt(req.getParameter("k"));
 ```
