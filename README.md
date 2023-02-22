@@ -9,6 +9,9 @@
   - [開発環境設置](#開発環境設置)
   - [基本的なアプリケーション](#基本的なアプリケーション)
   - [RequestDispatcher Calling a Seervlet from Servlet](#RequestDispatcher-Calling-Servlet-from-Servlet)
+  - [ServletConfig & ServletContext](#ServletConfig-&-ServletContext)
+  - [Servlet Annotation](#Servlet-Annotation)
+  - [JSP Java Server Page](#JSP)
 
 ## 概要
 
@@ -69,6 +72,8 @@ public class AddServlet extends HttpServlet {
 ```
 
 - you can use `doPost` and `doGet` to control the
+
+[目次](#目次)
 
 ### RequestDispatcher Calling Servlet from Servlet
 
@@ -133,3 +138,148 @@ for(Cookie c:cookies) {
     }
 }
 ```
+
+[目次](#目次)
+
+### ServletConfig & ServletContext
+
+- Information shared by ServletConfig is for a specific servlet,
+- while information shared by ServletContext is available for all servlets in the web application.
+
+- ServletContext
+
+```xml
+<context-param>
+    <param-name>name</param-name>
+    <param-value>Bruce</param-value>
+</context-param>
+```
+
+```java
+ServletContext ctx = getServletContext();
+String str = ctx.getInitParameter("name");
+```
+
+- ServletConfig
+
+```xml
+<servlet>
+  	<servlet-name>home</servlet-name>
+  	<servlet-class>com.potatoscript.MyServlet</servlet-class>
+
+  	<init-param>
+  		<param-name>name</param-name>
+  		<param-value>Lim</param-value>
+  	</init-param>
+
+</servlet>
+```
+
+```java
+ServletConfig ctx = getServletConfig();
+String str = ctx.getInitParameter("name");
+```
+
+[目次](#目次)
+
+### Servlet Annotation
+
+- If you use annotation, then the deployment descriptor (web.xml) is not required.
+
+```java
+@WebServlet("/add")
+public class AddServlet extends HttpServlet {
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException
+	{
+    }
+}
+```
+
+[目次](#目次)
+
+### JSP
+
+- Java Server Page
+- JSP -> Servlet -> Tomcat
+- JSP was translated from Servlet
+- Install Netbeans to see the code behind of JSP in Servlet
+- Four Tags : ①Directive, ②Declaration, ③Scriptlet, ④Expression
+
+```jsp
+<!-- ① Directive Tags-->
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1" errorPage="error.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+   <body>
+
+      <!-- ② Declaration tag-->
+      <%! int value = 100; %>
+
+      <!-- ③ Scriptlet tag-->
+      <%
+         int i = Integer.parseInt(request.getParameter("num1"));
+         out.printIn("Output : "+ i);
+      %>
+
+      <!-- ④ Expression tag-->
+      <%= i  %>
+   </body>
+</html>
+```
+
+- The attribute type of Directive tag <%@ attribute = ""> @ page, @ include, @ taglib
+  - language = "scripting lanaguage"
+  - extends = "className"
+  - import = "importList"
+  - session = "true|false"
+  - autoFlush = "true|false"
+  - contentType = "text/html"
+  - errorPage = "error_url"
+  - isErrorPage = "true|false"
+  - info = "information"
+  - isELIgnored = "true|false"
+  - isThreadSafe= "true|false"
+- Implicit Object in JSP
+
+  - Build in Object (can be used in Scriptlet and Expression)
+    　- Request (HttServletRequest)
+  - Response (HttpServletResponse)
+  - PageContext (PageContext)
+    ````
+      <%
+        pageContext.setAttribute("name","lim", PageContext.SESSION_SCOPE);
+      %>
+    ```　
+    ````
+  - Out (JspWriter) PrintWriter object
+  - Session (HttpSession)
+  - Application (ServletContext)
+  - Config (ServletConfig)
+
+- Exception Handling in JSP
+
+  - try{}catch(Exception e){ out.println(e.getMessage())}
+  - home.jsp
+
+  ```jsp
+  <%@ page language="java" errorPage="error.jsp"%>
+
+    <%
+       int x = 9/0;
+    %>
+  ```
+
+  - error.jsp
+
+  ```jsp
+   <%@ page language="java" isErrorPage="true"%>
+    ...
+    <body>
+      My Error
+      <%= exception.getMessage() %>
+    </body>
+  ```
+
+- JDBC in JSP (fetch data from Database)
+-

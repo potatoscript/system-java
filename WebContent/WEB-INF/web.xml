@@ -16,4 +16,26 @@
   	<servlet-name>sqresult</servlet-name>
   	<url-pattern>/sq</url-pattern>
   </servlet-mapping>
+  
+  
+  <servlet>
+  	<servlet-name>home</servlet-name>
+  	<servlet-class>com.potatoscript.MyServlet</servlet-class>
+  	
+  	<init-param>
+  		<param-name>name</param-name>
+  		<param-value>Lim</param-value>
+  	</init-param>
+  	
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>home</servlet-name>
+  	<url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  
+  <context-param>
+  	<param-name>name</param-name>
+  	<param-value>Bruce</param-value>
+  </context-param>
+  
 </web-app>
